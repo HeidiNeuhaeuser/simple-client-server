@@ -9,9 +9,6 @@ from _thread import *
 
 
 class Client:
-    """
-    Client class manages the socket connection to the server.
-    """
 
     def __init__(self, host, port):
         self.host = host
@@ -30,8 +27,6 @@ class Client:
         """
         Ends the thread used to listen for incoming messages.
         Closes the socket connection and terminates the programme.
-
-        :param reason: Reason for disconnect.
         """
         self.listening = False
         sleep(0.05)
@@ -42,8 +37,6 @@ class Client:
     def send_message(self, m):
         """
         Send message to server.
-
-        :param m: Message to be send.
         """
         self.client_socket.send(m.encode('utf-8'))
 
@@ -64,8 +57,6 @@ class Client:
     def read_message(self, msg):
         """
         Processes the messages received by the server.
-
-        :param msg: Server message.
         """
         print("Message from Server: %s" % msg)
 

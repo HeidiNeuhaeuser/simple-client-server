@@ -6,11 +6,8 @@ from _thread import *
 import sys
 import traceback
 
-class Server:
-    """
-    Server class manages socket connections to clients.
-    """
 
+class Server:
     def __init__(self, ip, port):
         self.host = ip
         self.port = port
@@ -19,11 +16,7 @@ class Server:
     def notify_clients(self, msg, client_to_be_left_out=None):
         """
         Used to send messages to all clients.
-        Can be used to forward movements from one client, without this client receiving his own updates
-        by specifying client_to_be_left_out.
-
-        :param msg: message to be send to players.
-        :param client_to_be_left_out: player that sends the message and thus does not need to receive it.
+        Can be used to forward messages from one client, without this client receiving his own updates.
         """
         for client_id in self.clients:
             if client_id != client_to_be_left_out:
@@ -37,9 +30,6 @@ class Server:
         """
         Used to send message to one client.
         If client is no longer active, he is deleted from the clients list.
-
-        :param msg: message from server.
-        :param client_id: client recipient.
         """
         try:
             self.clients[client_id].send(msg)
@@ -51,9 +41,6 @@ class Server:
         """
         Listen to incoming messages from clients. Each client gets a new thread for listening to its socket.
         Also checks if the connection was closed on client side.
-
-        :param clientsocket: Socket that is listened to.
-        :param address: Port and identifier of the client.
         """
         while True:
             try:
@@ -72,9 +59,6 @@ class Server:
     def read_message(self, client_id, msg):
         """
         Processes a message received by client by forwarding it to every other client.
-
-        :param client_id: Id of client who sent the message.
-        :param msg: message that was received.
         """
         print("Server received message from client %s: '%s'" % (client_id, msg))
         self.notify_clients(msg, client_to_be_left_out=client_id)
